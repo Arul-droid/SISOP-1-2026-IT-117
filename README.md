@@ -259,5 +259,7 @@ jika memilih opsi selain a hingga e.
 ## Soal 2 (Ekspedisi Gunung Kawi)
 Script bash untuk parsing koordinat dari file JSON.
 
+langkah pertama yang dilakukan adalah membuat environment agar kita dapat menginstall 
+
 ## Soal 3 (Kost Slebew)
 Script bash untuk manajemen kost berbasis CLI.
