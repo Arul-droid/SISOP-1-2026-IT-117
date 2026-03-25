@@ -259,7 +259,17 @@ jika memilih opsi selain a hingga e.
 ## Soal 2 (Ekspedisi Gunung Kawi)
 Script bash untuk parsing koordinat dari file JSON.
 
-langkah pertama yang dilakukan adalah membuat environment agar kita dapat menginstall 
+langkah pertama yang dilakukan adalah membuat environment agar kita dapat menginstall gdown untuk link petanya dengan script
+
+lalu kita membuka downloadan pdf dengan cat agar melihat isi pdfnya
+
+setelah menemukan link gethubnya kita clone reponya pada directory kita dengan script
+
+pada repo tersebut kita menemukan peta dengan 4 titik koordinat 
+
+kemudian kita menyimpan isi koordinat itu dengan awk yang kemudian kita 
+
+akan membuat script untuk menemukan titik tengah dari koordinat tersebut
 
 ## Soal 3 (Kost Slebew)
 Script bash untuk manajemen kost berbasis CLI.
