@@ -197,6 +197,7 @@ END {
 `NR > 1` akan membaca file csv dari baris 2 hingga akhir
 `total_age += $2` akan menambahkan dari baris ke dua hingga terkahir semua umur yang ada dan menjumlahkannya
 `int(total_age / count)` akan membagi variabel `total_age` dengan variabel `count` yang tadi sudah dibuat pada opsi a
+
 `END` merupakan block kode yang dijalankan setelah semua baris telah dibaca
 `else if (opsi == "d") print "Rata-rata usia penumpang adalah", int(total_age / count), "tahun"` akan mengeprint 
 
@@ -224,6 +225,7 @@ END {
 ```
 `NR > 1` akan membaca file csv dari baris 2 hingga akhir
 `if ($3 == "Business") business++` akan menambahkan jika pada kolom kelas terdapat strinh business ke variabel `business`
+
 `END` merupakan block kode yang dijalankan setelah semua baris telah dibaca
 `else if (opsi == "e") print "Jumlah penumpang business class ada", business, "orang"` akan mengeprint 
 
