@@ -3,6 +3,8 @@
 ## Soal 1 (Argo Ngawi Jes Ngejes)
 pada soal no 1 kami ditugaskan untuk membuat sebuah script AWK untuk menganalisa sebuah gerbong kereta.
 
+## Penjelasan
+
 ### Mendownload file CSV
 yang pertama kali yang harus kita lakukan adalah mendownload file csv ke ke dalam directory menggunakan terminal.
 
@@ -256,20 +258,108 @@ Soal tidak dikenali. Gunakan a, b, c, d, atau e
 ```
 jika memilih opsi selain a hingga e.
 
+### Output
+![alt text](image.png)
+
 ## Soal 2 (Ekspedisi Gunung Kawi)
 Script bash untuk parsing koordinat dari file JSON.
 
-langkah pertama yang dilakukan adalah membuat environment agar kita dapat menginstall gdown untuk link petanya dengan script
+pada soal ke dua ada beberapa step yang harus kita lakukan berdasarkan deskripsi soal
 
-lalu kita membuka downloadan pdf dengan cat agar melihat isi pdfnya
+#### Step 1: Buat folder ekspedisi
+```bash
+mkdir -p ~/praktikum1/soal_2/ekspedisi
+cd ~/praktikum1/soal_2/ekspedisi
+```
 
-setelah menemukan link gethubnya kita clone reponya pada directory kita dengan script
+#### Step 2: Install pip dan buat virtual environment
+```bash
+cd ~
+sudo apt install python3.12-venv
+python3 -m venv myenv
+source ~/myenv/bin/activate
+pip install gdown
+```
 
-pada repo tersebut kita menemukan peta dengan 4 titik koordinat 
+#### Step 3: Download file PDF
+```bash
+cd ~/praktikum1/soal_2/ekspedisi
+gdown FILE_ID_PDF -O peta-ekspedisi-amba.pdf
+```
 
-kemudian kita menyimpan isi koordinat itu dengan awk yang kemudian kita 
+#### Step 4: Baca isi PDF (concatenate)
+```bash
+cat peta-ekspedisi-amba.pdf
+Cari link GitHub di dalamnya.
+```
 
-akan membuat script untuk menemukan titik tengah dari koordinat tersebut
+#### Step 5: Install git dan clone repo
+```bash
+sudo apt install git
+git clone LINK_GITHUB_DARI_PDF
+```
+
+#### Step 6: Buat parserkoordinat.sh
+```bash
+cd ~/praktikum1/soal_2/ekspedisi
+nano parserkoordinat.sh
+Isi script untuk parsing gsxtrack.json → ambil id, site_name, latitude, longitude → simpan ke titik-penting.txt
+bashchmod +x parserkoordinat.sh
+./parserkoordinat.sh
+```
+
+#### Step 7: Buat nemupusaka.sh
+```bash
+nano nemupusaka.sh
+Isi script untuk hitung titik tengah diagonal dari titik-penting.txt → simpan ke posisipusaka.txt
+bashchmod +x nemupusaka.sh
+./nemupusaka.sh
+```
+
+#### Step 8: Push ke GitHub
+```bash
+cd ~/praktikum1
+git add .
+git commit -m "selesai soal 2"
+git push
+```
 
 ## Soal 3 (Kost Slebew)
 Script bash untuk manajemen kost berbasis CLI.
+
+#### Step 1: Buat struktur folder
+```bash
+mkdir -p ~/praktikum1/soal_3/data ~/praktikum1/soal_3/log ~/praktikum1/soal_3/rekap ~/praktikum1/soal_3/sampah
+cd ~/praktikum1/soal_3
+```
+
+#### Step 2: Buat file database
+```bash
+touch data/penghuni.csv log/tagihan.log rekap/laporan_bulanan.txt sampah/history_hapus.csv
+```
+
+#### Step 3: Buat script utama
+```bash
+nano kost_slebew.sh
+```
+
+#### Step 4: Beri izin eksekusi dan jalankan
+```bash
+chmod +x kost_slebew.sh
+./kost_slebew.sh
+```
+
+#### Step 5: Tambah penghuni (Opsi 1)
+```bash
+Masukkan Nama: Mas Rusdi
+Masukkan Kamar: 2
+Masukkan Harga Sewa: 600000
+Masukkan Tanggal Masuk (YYYY-MM-DD): 2026-03-01
+Masukkan Status Awal (Aktif/Menunggak): Aktif
+```
+
+#### Step 6: Test cron pengingat tagihan
+```bash
+./kost_slebew.sh --check-tagihan
+cat log/tagihan.log
+```
