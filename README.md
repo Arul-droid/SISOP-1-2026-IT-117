@@ -294,9 +294,8 @@ Cari link GitHub di dalamnya.
 ```
 ![alt text](image.png)
 
-#### Step 5: Install git dan clone repo
+#### Step 5: clone repo
 ```bash
-sudo apt install git
 git clone https://github.com/pocongcyber77/peta-gunung-kawi.git
 ```
 
