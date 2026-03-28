@@ -308,6 +308,7 @@ Isi script untuk parsing gsxtrack.json → ambil id, site_name, latitude, longit
 bashchmod +x parserkoordinat.sh
 ./parserkoordinat.sh
 ```
+Script ini membaca file `gsxtrack.json` dan mengekstrak data koordinat menggunakan AWK dengan regex.
 ```bash
 #!/bin/bash
 
@@ -320,6 +321,15 @@ awk '
 
 cat titik-penting.txt
 ```
+- `/"id":/` → mendeteksi baris yang mengandung kata `"id"` di file JSON
+- `gsub(/.*"id": "|",/, "", $0)` → membersihkan karakter yang tidak diperlukan, menyisakan nilai id saja
+- Hal yang sama dilakukan untuk `site_name`, `latitude`, dan `longitude`
+- `print id "," site "," lat "," lon` → mencetak hasil dalam format CSV ketika baris `longitude` ditemukan (karena longitude adalah field terakhir)
+- `| sort` → mengurutkan hasil berdasarkan id (node_001, node_002, dst)
+- `> titik-penting.txt` → menyimpan hasil ke file `titik-penting.txt`
+##### output
+![alt text](image-1.png)
+
 
 #### Step 7: Buat nemupusaka.sh
 ```bash
@@ -328,6 +338,7 @@ Isi script untuk hitung titik tengah diagonal dari titik-penting.txt → simpan 
 bashchmod +x nemupusaka.sh
 ./nemupusaka.sh
 ```
+Script ini menghitung titik tengah diagonal persegi dari 4 koordinat menggunakan rumus titik tengah.
 ```bash
 #!/bin/bash
 
@@ -339,6 +350,22 @@ echo "$lat,$lon" > posisipusaka.txt
 echo "Koordinat pusat:"
 cat posisipusaka.txt
 ```
+- `-F','` → set pemisah kolom dengan koma
+- `NR==1` → ambil data dari baris pertama (node_001)
+- `NR==3` → ambil data dari baris ketiga (node_003)
+- node_001 dan node_003 dipilih karena keduanya adalah **diagonal** dari persegi yang dibentuk 4 node
+- `(lat1+lat2)/2` → menghitung rata-rata latitude (rumus titik tengah)
+- `(lon1+lon2)/2` → menghitung rata-rata longitude (rumus titik tengah)
+- `printf "%.6f"` → memformat hasil dengan 6 angka di belakang koma
+- `echo "$lat,$lon" > posisipusaka.txt` → menyimpan hasil ke file
+
+**Rumus yang digunakan:**
+```
+Titik Tengah = ( (x1+x2)/2 , (y1+y2)/2 )
+             = ( (lon1+lon2)/2 , (lat1+lat2)/2 )
+```
+**Output**
+![alt text](image-2.png)
 
 #### Step 8: Push ke GitHub
 ```bash
@@ -372,6 +399,7 @@ nano kost_slebew.sh
 chmod +x kost_slebew.sh
 ./kost_slebew.sh
 ```
+Script bash interaktif untuk manajemen kost berbasis CLI menggunakan AWK.
 ```bash
 #!/bin/bash
 
@@ -677,6 +705,104 @@ while true; do
     esac
 done
 ```
+#### Opsi 1: Tambah Penghuni
+```bash
+tambah_penghuni()
+```
+- Meminta input: Nama, Kamar, Harga Sewa, Tanggal Masuk, Status
+- Validasi yang dilakukan:
+  - Kamar tidak boleh bentrok (unik)
+  - Harga sewa harus angka positif
+  - Format tanggal harus YYYY-MM-DD
+  - Tanggal tidak boleh melebihi hari ini
+  - Status hanya boleh Aktif atau Menunggak (case-insensitive)
+- Data disimpan ke `data/penghuni.csv`
+
+---
+
+#### Opsi 2: Hapus Penghuni
+```bash
+hapus_penghuni()
+```
+- Mencari penghuni berdasarkan nama
+- Sebelum dihapus, data diarsipkan ke `sampah/history_hapus.csv` dengan tambahan tanggal penghapusan
+- Menghapus baris dari database menggunakan AWK:
+```bash
+awk -F',' -v n="$nama" 'NR==1 || $1!=n' "$DB" > /tmp/penghuni_tmp.csv
+```
+
+---
+
+#### Opsi 3: Tampilkan Daftar Penghuni
+```bash
+tampil_penghuni()
+```
+- Menampilkan seluruh penghuni dalam format tabel rapi menggunakan `printf` di AWK:
+```bash
+printf "%-4s| %-20s| %-6s| %-12s| %-10s| %s\n"
+```
+- `%-4s` → rata kiri dengan lebar 4 karakter
+
+---
+
+#### Opsi 4: Update Status
+```bash
+update_status()
+```
+- Mencari penghuni berdasarkan nama
+- Mengubah status menjadi Aktif atau Menunggak
+- Case-insensitive (aktif/AKTIF/Aktif semua diterima)
+- Update dilakukan menggunakan AWK:
+```bash
+awk -F',' -v n="$nama" -v s="$status" 'BEGIN{OFS=","} NR>1{if($1==n) $5=s; print}'
+```
+
+---
+
+#### Opsi 5: Cetak Laporan Keuangan
+```bash
+laporan_keuangan()
+```
+- Menghitung total pemasukan dari penghuni berstatus Aktif
+- Menghitung total tunggakan dari penghuni berstatus Menunggak
+- Menampilkan daftar penghuni yang menunggak
+- Hasil disimpan ke `rekap/laporan_bulanan.txt`
+
+---
+
+#### Opsi 6: Kelola Cron
+```bash
+kelola_cron()
+```
+- **Lihat** → menampilkan cron job yang aktif
+- **Daftarkan** → menambah jadwal pengingat harian, jika sudah ada jadwal lama otomatis diganti (overwrite):
+```bash
+crontab -l 2>/dev/null | grep -v "check-tagihan" > /tmp/cron_tmp
+echo "$menit $jam * * * $SCRIPT --check-tagihan" >> /tmp/cron_tmp
+crontab /tmp/cron_tmp
+```
+- **Hapus** → menghapus cron job pengingat
+
+---
+
+#### Check Tagihan (dipanggil Cron)
+```bash
+check_tagihan()
+```
+- Dipanggil otomatis oleh cron dengan argumen `--check-tagihan`
+- Mencari penghuni berstatus Menunggak dan mencatatnya ke `log/tagihan.log`
+- Format log:
+```
+[YYYY-MM-DD HH:MM:SS] TAGIHAN: <Nama> (Kamar <No>) - Menunggak Rp<Harga>
+```
+
+---
+
+#### Opsi 7: Exit
+```bash
+7) echo "Terima kasih sudah menggunakan Kost Slebew!"; exit 0 ;;
+```
+Keluar dari program.
 
 #### Step 5: Tambah penghuni (Opsi 1)
 ```bash
