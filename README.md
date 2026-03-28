@@ -259,7 +259,7 @@ Soal tidak dikenali. Gunakan a, b, c, d, atau e
 jika memilih opsi selain a hingga e.
 
 ### Output
-![alt text](image.png)
+![alt text](image-3.png)
 
 ## Soal 2 (Ekspedisi Gunung Kawi)
 Script bash untuk parsing koordinat dari file JSON.
