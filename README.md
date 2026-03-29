@@ -1,4 +1,12 @@
 # Laporan Praktikum1_SISOP
+## Identitas
+
+| Field | Keterangan |
+|---|---|
+| Nama | *Muhamad Nasrulhaq* |
+| NRP | *5027251117* |
+| Kelas | *B* |
+| Mata Kuliah | SISOP |
 
 ## Soal 1 (Argo Ngawi Jes Ngejes)
 pada soal no 1 kami ditugaskan untuk membuat sebuah script AWK untuk menganalisa sebuah gerbong kereta.
