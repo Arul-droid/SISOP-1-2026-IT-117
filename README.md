@@ -259,8 +259,7 @@ Soal tidak dikenali. Gunakan a, b, c, d, atau e
 jika memilih opsi selain a hingga e.
 
 ### Output
-![alt text](image-3.png)
-
+![alt text](<assets/soal_1/run soal 1.png>)
 ## Soal 2 (Ekspedisi Gunung Kawi)
 Script bash untuk parsing koordinat dari file JSON.
 
@@ -292,8 +291,7 @@ gdown https://drive.google.com/uc?id=1q10pHSC3KFfvEiCN3V6PTroPR7YGHF6Q -O peta-e
 cat peta-ekspedisi-amba.pdf | grep -a "https"
 Cari link GitHub di dalamnya.
 ```
-![alt text](image.png)
-
+![alt text](<assets/soal_2/cat pdf soal 2.png>)
 #### Step 5: clone repo
 ```bash
 git clone https://github.com/pocongcyber77/peta-gunung-kawi.git
@@ -327,7 +325,7 @@ cat titik-penting.txt
 - `| sort` → mengurutkan hasil berdasarkan id (node_001, node_002, dst)
 - `> titik-penting.txt` → menyimpan hasil ke file `titik-penting.txt`
 ##### output
-![alt text](image-1.png)
+![alt text](<assets/soal_2/run parserkoordinat.png>)
 
 
 #### Step 7: Buat nemupusaka.sh
@@ -364,7 +362,7 @@ Titik Tengah = ( (x1+x2)/2 , (y1+y2)/2 )
              = ( (lon1+lon2)/2 , (lat1+lat2)/2 )
 ```
 **Output**
-![alt text](image-2.png)
+![assets/soal_2/run nemupusaka.png](<assets/soal_2/run nemupusaka.png>)
 
 #### Step 8: Push ke GitHub
 ```bash
@@ -803,17 +801,34 @@ check_tagihan()
 ```
 Keluar dari program.
 
-#### Step 5: Tambah penghuni (Opsi 1)
-```bash
-Masukkan Nama: Mas Rusdi
-Masukkan Kamar: 2
-Masukkan Harga Sewa: 600000
-Masukkan Tanggal Masuk (YYYY-MM-DD): 2026-03-01
-Masukkan Status Awal (Aktif/Menunggak): Aktif
-```
+#### Output
+Layout menu
+![assets/soal_3/menu soal 3.png](<assets/soal_3/menu soal 3.png>)
 
-#### Step 6: Test cron pengingat tagihan
-```bash
-./kost_slebew.sh --check-tagihan
-cat log/tagihan.log
-```
+opsi 1
+![assets/soal_3/soal 3 opsi 1.png](<assets/soal_3/soal 3 opsi 1.png>)
+
+opsi 2
+![assets/soal_3/soal 3 opsi 2.png](<assets/soal_3/soal 3 opsi 2.png>)
+
+opsi 3
+![assets/soal_3/soal 3 opsi 3.png](<assets/soal_3/soal 3 opsi 3.png>)
+
+opsi 4
+![assets/soal_3/soal 3 opsi 4.png](<assets/soal_3/soal 3 opsi 4.png>)
+
+opsi 5
+![assets/soal_3/soal 3 opsi 5.png](<assets/soal_3/soal 3 opsi 5.png>)
+
+opsi 6
+1
+![assets/soal_3/soal 3 opsi 6 1.png](<assets/soal_3/soal 3 opsi 6 1.png>)
+2
+![assets/soal_3/soal 3 opsi 6 2.png](<assets/soal_3/soal 3 opsi 6 2.png>)
+3
+![assets/soal_3/soal 3 opsi 6 3.png](<assets/soal_3/soal 3 opsi 6 3.png>)
+4
+![assets/soal_3/soal 3 opsi 6 4.png](<assets/soal_3/soal 3 opsi 6 4.png>)
+
+opsi 7
+![assets/soal_3/soal 3 opsi 7.png](<assets/soal_3/soal 3 opsi 7.png>)
